@@ -58,5 +58,6 @@ public class Appliance : MonoBehaviour
     public void Reset() {
         justCooked = false;
         Destroy(foodSpawnPoint.GetChild(0).gameObject);
+        requiredItem = ItemInHand.RAW_STEAK;
     }
 }

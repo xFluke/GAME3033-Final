@@ -34,20 +34,22 @@ public class PlayerInteractions : MonoBehaviour
         if (other.transform.parent.CompareTag("Appliance")) {
             inRangeOfAppliance = true;
             applianceInteractingWith = other.transform.parent.GetComponent<Appliance>();
+            Debug.Log("In Appliance");
         }
-        //else if (other.transform.parent.CompareTag("Counter")) {
-        //    inRangeOfCounter = true;
-        //}
+        else if (other.transform.parent.CompareTag("Counter")) {
+            inRangeOfCounter = true;
+            Debug.Log("In Counter");
+        }
     }
 
     private void OnTriggerExit(Collider other) {
-        if (other.CompareTag("Appliance")) {
+        if (other.transform.parent.CompareTag("Appliance")) {
             inRangeOfAppliance = false;
             applianceInteractingWith = null;
         }
-        //else if (other.transform.parent.CompareTag("Counter")) {
-        //    inRangeOfCounter = false;
-        //}
+        else if (other.transform.parent.CompareTag("Counter")) {
+            inRangeOfCounter = false;
+        }
     }
 
     public void OnInteract(InputValue value) {
@@ -73,6 +75,12 @@ public class PlayerInteractions : MonoBehaviour
                     }
                     
                 }
+            }
+        }
+        else if (value.isPressed && inRangeOfCounter) {
+            if (ItemInHandDatabase.IsCookedFood(itemInHand)) {
+                itemInHand = ItemInHand.EMPTY;
+                onItemInHandChange.Invoke(itemInHand);
             }
         }
     }
