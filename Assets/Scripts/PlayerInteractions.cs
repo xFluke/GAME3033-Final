@@ -22,12 +22,13 @@ public class PlayerInteractions : MonoBehaviour
     void Start()
     {
         itemInHand = ItemInHand.EMPTY;
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        FindObjectOfType<CustomerManager>().onFoodDeliverySuccess.AddListener(EmptyHand);
     }
 
     private void OnTriggerEnter(Collider other) {
@@ -86,14 +87,10 @@ public class PlayerInteractions : MonoBehaviour
         }
         // Delivering Food
         else if (value.isPressed && inRangeOfCounter) {
-            if (ItemInHandDatabase.IsCookedFood(itemInHand)) {
-                itemInHand = ItemInHand.EMPTY;
-                onItemInHandChange.Invoke(itemInHand);
-            }
+            FindObjectOfType<CustomerManager>().DeliverFood(itemInHand);
         }
         else if (value.isPressed && inRangeOfTrashCan) {
-            itemInHand = ItemInHand.EMPTY;
-            onItemInHandChange.Invoke(itemInHand);
+            EmptyHand();
         }
     }
 
@@ -106,5 +103,10 @@ public class PlayerInteractions : MonoBehaviour
         Debug.Log("My Item: " + itemInHand);
 
         return applianceInteractingWith.RequiredItem == itemInHand;
+    }
+
+    void EmptyHand() {
+        itemInHand = ItemInHand.EMPTY;
+        onItemInHandChange.Invoke(itemInHand);
     }
 }

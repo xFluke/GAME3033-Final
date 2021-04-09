@@ -7,6 +7,7 @@ public class Customer : MonoBehaviour
 {
     [SerializeField]
     ItemInHand wantedFood;
+    public ItemInHand WantedFood { get { return wantedFood; } }
 
     [SerializeField]
     Image wantedFoodImage;
@@ -18,9 +19,7 @@ public class Customer : MonoBehaviour
         wantedFoodImage.sprite = (Sprite)Resources.Load(wantedFood.ToString());
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    private void OnTriggerEnter(Collider other) {
+        Destroy(gameObject);
     }
 }
