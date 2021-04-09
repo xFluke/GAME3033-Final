@@ -29,6 +29,7 @@ public class PlayerInteractions : MonoBehaviour
     void Update()
     {
         FindObjectOfType<CustomerManager>().onFoodDeliverySuccess.AddListener(EmptyHand);
+        FindObjectOfType<CustomerManager>().onFoodDeliveryFail.AddListener(EmptyHand);
     }
 
     private void OnTriggerEnter(Collider other) {
@@ -87,6 +88,10 @@ public class PlayerInteractions : MonoBehaviour
         }
         // Delivering Food
         else if (value.isPressed && inRangeOfCounter) {
+            if (itemInHand == ItemInHand.EMPTY)
+                return;
+
+            Debug.Log("attempting to deliver food");
             FindObjectOfType<CustomerManager>().DeliverFood(itemInHand);
         }
         else if (value.isPressed && inRangeOfTrashCan) {

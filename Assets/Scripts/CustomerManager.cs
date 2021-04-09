@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class CustomerManager : MonoBehaviour
 {
     public UnityEvent onFoodDeliverySuccess;
+    public UnityEvent onFoodDeliveryFail;
 
     [SerializeField]
     GameObject customerPrefab;
@@ -22,15 +23,7 @@ public class CustomerManager : MonoBehaviour
     [SerializeField]
     int customerMaximumCount;
 
-    [SerializeField]
-    Sprite happyFace;
-
-    [SerializeField]
-    Sprite angryFace;
-
     List<GameObject> listOfCustomers;
-
-
 
     // Start is called before the first frame update
     void Start()
@@ -53,16 +46,26 @@ public class CustomerManager : MonoBehaviour
     }
 
     public void DeliverFood(ItemInHand deliveringFood) {
+        if (listOfCustomers.Count < 1)
+            return;
+
         foreach (GameObject customer in listOfCustomers) {
             if (deliveringFood == customer.GetComponent<Customer>().WantedFood) {
                 onFoodDeliverySuccess.Invoke();
                 customer.GetComponent<NavMeshAgent>().SetDestination(customer.transform.position + new Vector3(0, 0, 20));
-                customer.GetComponent<Customer>().WantedFoodImage = happyFace;
+                customer.GetComponent<Customer>().WantedFoodImage = (Sprite)Resources.Load("HappyFace");
                 listOfCustomers.Remove(customer);
                 StartCoroutine(ShiftCustomerPositions());
                 return;
             }
         }
+
+        onFoodDeliveryFail.Invoke();
+        GameObject customerFirstInLine = listOfCustomers[0];
+        customerFirstInLine.GetComponent<Customer>().WantedFoodImage = (Sprite)Resources.Load("AngryFace");
+        customerFirstInLine.GetComponent<NavMeshAgent>().SetDestination(customerFirstInLine.transform.position + new Vector3(0, 0, 20));
+        listOfCustomers.Remove(customerFirstInLine);
+        Debug.Log("Wrong Food");
     }
 
     IEnumerator SpawnCustomers() {

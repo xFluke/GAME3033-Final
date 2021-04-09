@@ -12958,13 +12958,14 @@ MonoBehaviour:
   onFoodDeliverySuccess:
     m_PersistentCalls:
       m_Calls: []
+  onFoodDeliveryFail:
+    m_PersistentCalls:
+      m_Calls: []
   customerPrefab: {fileID: 673703971127089597, guid: 0ecd8538706cc0e47aa17c7c05e3e1b0, type: 3}
   customerSpawnPoint: {fileID: 1202791047}
   customerFinalDestination: {fileID: 466025769}
   customerSpawnRate: 5
   customerMaximumCount: 5
-  happyFace: {fileID: 2874556472504434913, guid: 28af3bb972f53ac4c858bafc222c92a8, type: 3}
-  angryFace: {fileID: -2586094504747802353, guid: 28af3bb972f53ac4c858bafc222c92a8, type: 3}
 --- !u!1 &1534588109
 GameObject:
   m_ObjectHideFlags: 0
@@ -13257,7 +13258,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   numberOfCustomersServedToWin: 10
+  numberOfCustomersFailedToLose: 5
   gameOverCanvas: {fileID: 1859382715}
+  gameOverText: {fileID: 1635117855}
 --- !u!4 &1690477349
 Transform:
   m_ObjectHideFlags: 0
