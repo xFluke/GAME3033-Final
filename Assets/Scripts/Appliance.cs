@@ -19,6 +19,8 @@ public class Appliance : MonoBehaviour
 
     [SerializeField] ItemInHand itemToGive;
 
+    ItemInHand initialRequiredItem;
+
     public ItemInHand ItemToGive {  get { return itemToGive; } }
 
     [SerializeField] bool interactable;
@@ -30,6 +32,10 @@ public class Appliance : MonoBehaviour
 
     private bool justCooked = false;
     public bool JustCooked { get { return justCooked; } set { justCooked = value; } }
+
+    private void Start() {
+        initialRequiredItem = requiredItem;
+    }
 
     public void Cook(ItemInHand foodToCook) {
         StartCoroutine(CookFood(foodToCook));
@@ -58,6 +64,6 @@ public class Appliance : MonoBehaviour
     public void Reset() {
         justCooked = false;
         Destroy(foodSpawnPoint.GetChild(0).gameObject);
-        requiredItem = ItemInHand.RAW_STEAK;
+        requiredItem = initialRequiredItem;
     }
 }

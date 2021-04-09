@@ -7,7 +7,8 @@ public enum ItemInHand
     EMPTY,
     RAW_STEAK,
     COOKED_STEAK,
-    PLATE,
+    RAW_SHRIMP,
+    COOKED_SHRIMP,
     COUNT
 }
 
@@ -19,6 +20,8 @@ public class ItemInHandDatabase : MonoBehaviour
 
     [SerializeField] GameObject rawSteak;
     [SerializeField] GameObject cookedSteak;
+    [SerializeField] GameObject rawShrimp;
+    [SerializeField] GameObject cookedShrimp;
 
     // Start is called before the first frame update
     void Awake() {
@@ -30,6 +33,7 @@ public class ItemInHandDatabase : MonoBehaviour
         rawFoodToCookedFoodDictionary = new Dictionary<ItemInHand, ItemInHand>();
 
         rawFoodToCookedFoodDictionary[ItemInHand.RAW_STEAK] = ItemInHand.COOKED_STEAK;
+        rawFoodToCookedFoodDictionary[ItemInHand.RAW_SHRIMP] = ItemInHand.COOKED_SHRIMP;
     }
 
     void InitializeItemInHandToGameObjectDictionary() {
@@ -38,6 +42,8 @@ public class ItemInHandDatabase : MonoBehaviour
         itemInHandToGameObjectDictionary[ItemInHand.EMPTY] = null;
         itemInHandToGameObjectDictionary[ItemInHand.RAW_STEAK] = rawSteak;
         itemInHandToGameObjectDictionary[ItemInHand.COOKED_STEAK] = cookedSteak;
+        itemInHandToGameObjectDictionary[ItemInHand.RAW_SHRIMP] = rawShrimp;
+        itemInHandToGameObjectDictionary[ItemInHand.COOKED_SHRIMP] = cookedShrimp;
     }
 
     public static ItemInHand GetCookedVersion(ItemInHand uncookedFood) {
@@ -49,12 +55,16 @@ public class ItemInHandDatabase : MonoBehaviour
     }
 
     public static ItemInHand GetRandomFood() {
+        
         ItemInHand randomFood = (ItemInHand)(Random.Range(0, (int)ItemInHand.COUNT));
 
         while (!rawFoodToCookedFoodDictionary.ContainsValue(randomFood)) {
             randomFood = (ItemInHand)(Random.Range(0, (int)ItemInHand.COUNT));
         }
 
+
+        Debug.Log(randomFood);
         return randomFood;
+
     }
 }
