@@ -21,6 +21,7 @@ public class CustomerSpawner : MonoBehaviour
     void Start()
     {
         listOfCustomers = new List<GameObject>();
+        SpawnCustomer();
     }
 
     // Update is called once per frame
