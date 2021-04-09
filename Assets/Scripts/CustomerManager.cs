@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class CustomerManager : MonoBehaviour
 {
@@ -15,6 +16,17 @@ public class CustomerManager : MonoBehaviour
     [SerializeField]
     Transform customerFinalDestination;
 
+    [SerializeField]
+    float customerSpawnRate;
+
+    [SerializeField]
+    int customerMaximumCount;
+
+    [SerializeField]
+    Sprite happyFace;
+
+    [SerializeField]
+    Sprite angryFace;
 
     List<GameObject> listOfCustomers;
 
@@ -24,9 +36,7 @@ public class CustomerManager : MonoBehaviour
     void Start()
     {
         listOfCustomers = new List<GameObject>();
-        SpawnCustomer();
-        SpawnCustomer();
-        SpawnCustomer();
+        StartCoroutine(SpawnCustomers());
     }
 
     // Update is called once per frame
@@ -47,9 +57,22 @@ public class CustomerManager : MonoBehaviour
             if (deliveringFood == customer.GetComponent<Customer>().WantedFood) {
                 onFoodDeliverySuccess.Invoke();
                 customer.GetComponent<NavMeshAgent>().SetDestination(customer.transform.position + new Vector3(0, 0, 20));
+                customer.GetComponent<Customer>().WantedFoodImage = happyFace;
                 listOfCustomers.Remove(customer);
                 StartCoroutine(ShiftCustomerPositions());
                 return;
+            }
+        }
+    }
+
+    IEnumerator SpawnCustomers() {
+        while (true) {
+            yield return new WaitForSeconds(customerSpawnRate);
+            if (listOfCustomers.Count < customerMaximumCount) {
+                SpawnCustomer();
+            }
+            else {
+                yield return new WaitUntil(() => listOfCustomers.Count < customerMaximumCount);
             }
         }
     }

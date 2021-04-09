@@ -11,6 +11,7 @@ public class Customer : MonoBehaviour
 
     [SerializeField]
     Image wantedFoodImage;
+    public Sprite WantedFoodImage { set { wantedFoodImage.sprite = value; } }
 
     // Start is called before the first frame update
     void Start()
