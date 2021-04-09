@@ -15,6 +15,7 @@ public class PlayerInteractions : MonoBehaviour
 
     private bool inRangeOfAppliance = false;
     private bool inRangeOfCounter = false;
+    private bool inRangeOfTrashCan = false;
     private Appliance applianceInteractingWith;
 
     // Start is called before the first frame update
@@ -40,6 +41,9 @@ public class PlayerInteractions : MonoBehaviour
             inRangeOfCounter = true;
             Debug.Log("In Counter");
         }
+        else if (other.transform.parent.CompareTag("Trash")) {
+            inRangeOfTrashCan = true;
+        }
     }
 
     private void OnTriggerExit(Collider other) {
@@ -49,6 +53,9 @@ public class PlayerInteractions : MonoBehaviour
         }
         else if (other.transform.parent.CompareTag("Counter")) {
             inRangeOfCounter = false;
+        }
+        else if (other.transform.parent.CompareTag("Trash")) {
+            inRangeOfTrashCan = false;
         }
     }
 
@@ -77,11 +84,16 @@ public class PlayerInteractions : MonoBehaviour
                 }
             }
         }
+        // Delivering Food
         else if (value.isPressed && inRangeOfCounter) {
             if (ItemInHandDatabase.IsCookedFood(itemInHand)) {
                 itemInHand = ItemInHand.EMPTY;
                 onItemInHandChange.Invoke(itemInHand);
             }
+        }
+        else if (value.isPressed && inRangeOfTrashCan) {
+            itemInHand = ItemInHand.EMPTY;
+            onItemInHandChange.Invoke(itemInHand);
         }
     }
 

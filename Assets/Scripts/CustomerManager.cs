@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class CustomerSpawner : MonoBehaviour
+public class CustomerManager : MonoBehaviour
 {
     [SerializeField]
     GameObject customerPrefab;
@@ -35,6 +35,5 @@ public class CustomerSpawner : MonoBehaviour
         listOfCustomers.Add(newCustomer);
         newCustomer.name = "Customer" + listOfCustomers.Count;
         newCustomer.GetComponent<NavMeshAgent>().SetDestination(customerFinalDestination.position - new Vector3((listOfCustomers.Count - 1) * 2, 0, 0));
-
     }
 }
